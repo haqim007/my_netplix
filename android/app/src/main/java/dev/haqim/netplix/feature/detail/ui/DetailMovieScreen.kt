@@ -42,7 +42,7 @@ import dev.haqim.netplix.core.ui.component.VideoPlayerView
 import dev.haqim.netplix.core.ui.component.YouTubePlayerView
 import dev.haqim.netplix.core.ui.component.error.ErrorView
 import dev.haqim.netplix.core.ui.theme.NetplixTheme
-import dev.haqim.netplix.feature.home.ui.MoviesSectionView
+import dev.haqim.netplix.feature.home.ui.LatestMoviesSectionView
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -125,7 +125,7 @@ fun DetailMovieScreen(
                 )
             }
 
-            MoviesSectionView(
+            LatestMoviesSectionView(
                 modifier = Modifier,
                 title = stringResource(R.string.latest),
                 movies = dummyMovies,

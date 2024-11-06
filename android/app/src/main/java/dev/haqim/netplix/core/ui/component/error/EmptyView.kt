@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.haqim.netplix.R
@@ -28,6 +29,7 @@ import dev.haqim.netplix.core.ui.theme.NetplixTheme
 fun EmptyView(
     modifier: Modifier = Modifier,
     message: String?,
+    lottieSize: Dp = 250.dp,
     onTryAgain: (() -> Unit)? = null,
     onSecondaryAction: (@Composable () -> Unit)? = null,
 ) {
@@ -40,7 +42,7 @@ fun EmptyView(
             jsonRaw = R.raw.lottie_empty,
             modifier = Modifier
                 .padding(bottom = 14.dp)
-                .size(250.dp),
+                .size(lottieSize),
             iterations = 3
         )
 

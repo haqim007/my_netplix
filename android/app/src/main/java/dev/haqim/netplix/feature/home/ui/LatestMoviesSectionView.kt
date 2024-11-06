@@ -12,9 +12,8 @@ import dev.haqim.netplix.core.ui.component.MovieCard
 import dev.haqim.netplix.core.ui.theme.fontMontaserrat
 
 @Composable
-fun MoviesSectionView(
+fun LatestMoviesSectionView(
     modifier: Modifier = Modifier,
-    isPerCategory: Boolean = false,
     title: String,
     movies: List<Movie>,
     onClick: (Movie) -> Unit,
@@ -33,7 +32,7 @@ fun MoviesSectionView(
         ) {
             items(movies.size) { index ->
                 val movie = movies[index]
-                MovieCard(onClick, movie, isPerCategory, title)
+                MovieCard(onClick, movie, false, title)
             }
         }
     }

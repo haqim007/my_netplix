@@ -5,6 +5,7 @@ import dev.haqim.netplix.core.di.ktorHttpClient
 import dev.haqim.netplix.core.domain.model.CustomRequestException
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.bearerAuth
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
@@ -24,6 +25,7 @@ abstract class KtorService: KoinComponent {
 
     protected abstract val BASE_URL: String
     protected abstract val API_VERSION: String
+    protected abstract val API_KEY: String
 
     protected open val client: HttpClient by inject(ktorHttpClient)
 
@@ -34,12 +36,13 @@ abstract class KtorService: KoinComponent {
     ){
         url {
             takeFrom(BASE_URL)
-            //path("$API_VERSION$path")
-            path(path)
+            path("$API_VERSION/$path")
             parametersList.forEach { param ->
                 parameters.append(param.first, param.second)
             }
+            parameters.append("language", "en-US")
             contentType(type)
+            bearerAuth(API_KEY)
         }
     }
 
