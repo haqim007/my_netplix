@@ -1,5 +1,6 @@
 package dev.haqim.netplix.feature.home.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -183,6 +184,7 @@ fun HomeScreen(
                         movies = state.value.genresWithMovies[genre.id] ?: listOf(),
                         onClick = { movie ->
                             openedMovie = movie
+                            Log.d("openedMovie", movie.toString())
                             showBottomSheet = true
                         }
                     )
