@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Netplix</string>
+    <string name="see_more">See more</string>
+    <string name="search">Search</string>
+    <string name="please_wait">Please wait</string>
+    <string name="oops_empty">Oops, there is no data</string>
+    <string name="failed_to_load_data">Failed to load data</string>
+    <string name="attention_">Attention!</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="please_try_again">Please try again</string>
+    <string name="oops_error_occurred">Oops, an error occurred</string>
+    <string name="poster_of_">Poster of %1$s</string>
+    <string name="latest">Latest</string>
+    <string name="try_again">Try again</string>
+    <string name="trailer_unavailable">Trailer unavailable</string>
+    <string name="action">Action</string>
+    <string name="comedy">Commedy</string>
+</resources>
