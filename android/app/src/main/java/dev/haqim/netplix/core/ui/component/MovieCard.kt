@@ -83,6 +83,7 @@ fun MovieCard(
                     .fillMaxWidth()
                     .requiredHeightIn(min = 200.dp)
                     .requiredWidthIn(min = 100.dp)
+                    .align(Alignment.CenterHorizontally)
             )
             if (!isPerCategory) {
                 Text(

@@ -57,7 +57,7 @@ abstract class KtorService: KoinComponent {
                     else -> null // Handle other cases if necessary
                 }
             }
-            val message = json.jsonObject["message"]?.jsonPrimitive?.content
+            val message = json.jsonObject["status_message"]?.jsonPrimitive?.content
             if (response.status != HttpStatusCode.OK && (message != null || errors != null)) {
                 throw CustomRequestException(
                     dataJson = json,
@@ -66,7 +66,8 @@ abstract class KtorService: KoinComponent {
                 )
             }
         } catch (e: CustomRequestException){
-            throw  e
+            Log.e("checkOrThrowError", e.stackTraceToString())
+            throw e
         } catch (e: Exception){
             Log.e("checkOrThrowError", e.stackTraceToString())
         }

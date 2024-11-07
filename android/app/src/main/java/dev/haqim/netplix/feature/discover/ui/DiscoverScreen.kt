@@ -3,14 +3,11 @@ package dev.haqim.netplix.feature.discover.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.KeyboardActions
@@ -18,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,7 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,34 +41,40 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import dev.haqim.netplix.R
 import dev.haqim.netplix.core.domain.model.Genre
 import dev.haqim.netplix.core.domain.model.Movie
 import dev.haqim.netplix.core.domain.model.dummyMovies
 import dev.haqim.netplix.core.ui.component.MovieCard
 import dev.haqim.netplix.core.ui.component.MyIconButton
+import dev.haqim.netplix.core.ui.component.PagerView
 import dev.haqim.netplix.core.ui.theme.NetplixTheme
-import dev.haqim.netplix.core.ui.theme.fontDancingScript
 import dev.haqim.netplix.feature.detail.ui.ModalMovieDetail
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DiscoverScreen(
     modifier: Modifier = Modifier,
+    viewModel: DiscoverMoviesViewModel = koinViewModel<DiscoverMoviesViewModel>(),
     genre: Genre? = null,
     navigateBack: () -> Unit
 ) {
-    var movies by remember { mutableStateOf(dummyMovies) }
-    var query by remember { mutableStateOf("") }
+
+    val state by viewModel.state.collectAsState()
+    val action = {action: DiscoverMoviesUiAction -> viewModel.doAction(action)}
+
+    val pagingItems = viewModel.pagingFlow.collectAsLazyPagingItems()
+
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
     )
@@ -82,18 +84,6 @@ fun DiscoverScreen(
     }
     var openedMovie: Movie? by remember{
         mutableStateOf(null)
-    }
-
-
-    LaunchedEffect(key1 = query){
-        delay(1000)
-        movies = if (query.isBlank() || query.isEmpty()){
-            dummyMovies
-        } else {
-            dummyMovies.filter {
-                it.title.lowercase().contains(query.lowercase())
-            }
-        }
     }
 
     Scaffold(
@@ -128,8 +118,10 @@ fun DiscoverScreen(
                         )
                     }
                     SearchTextField(
-                        query = query,
-                        onQueryChange = { query = it },
+                        query = state.keyword,
+                        onQueryChange = {
+                            action(DiscoverMoviesUiAction.FindByKeyword(it))
+                        },
                         onSearch = {}
                     )
                 }
@@ -144,24 +136,38 @@ fun DiscoverScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                stringResource(R.string.search),
+                genre?.let {
+                    stringResource(R.string.search_category, genre.name)
+                } ?: stringResource(R.string.search),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )
-            LazyVerticalGrid(
-                modifier = Modifier.fillMaxSize(),
-                columns = GridCells.Fixed(2)
-            ) {
-                items(movies.size) { index ->
-                    val movie = movies[index]
-                    MovieCard(
-                        onClick = {
-                            openedMovie = movie
-                            showBottomSheet = true
-                        },
-                        movie, true,
-                        movie.title
-                    )
+
+            PagerView(
+                modifier = Modifier.weight(9f),
+                pagingItems = pagingItems,
+                emptyDataMessage = stringResource(R.string.oops_empty),
+                onTryAgain = { pagingItems.retry() }
+            ){
+                LazyVerticalGrid(
+                    modifier = Modifier.fillMaxSize(),
+                    columns = GridCells.Fixed(2)
+                ) {
+                    items(
+                        count = pagingItems.itemCount,
+                        key = pagingItems.itemKey{it.id}
+                    ) { index ->
+                        val movie = pagingItems[index] ?: return@items
+                        MovieCard(
+                            onClick = {
+                                openedMovie = movie
+                                showBottomSheet = true
+                            },
+                            movie,
+                            true,
+                            movie.title
+                        )
+                    }
                 }
             }
         }

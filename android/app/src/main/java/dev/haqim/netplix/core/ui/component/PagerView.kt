@@ -2,20 +2,13 @@ package dev.haqim.netplix.core.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.datastore.preferences.protobuf.Empty
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import dev.haqim.netplix.R
@@ -27,7 +20,7 @@ import dev.haqim.netplix.core.ui.component.error.ErrorView
 fun <T : Any> PagerView(
     modifier: Modifier,
     pagingItems: LazyPagingItems<T>,
-    onLoadData: () -> Unit,
+    onTryAgain: () -> Unit,
     onEmpty: (() -> Unit)? = null,
     onResetFilter: (() -> Unit)? = null,
     emptyDataMessage: String = stringResource(R.string.oops_empty),
@@ -70,7 +63,7 @@ fun <T : Any> PagerView(
         } else if (pagingItems.loadState.refresh is LoadState.Error) {
             ErrorView(
                 message = stringResource(id = R.string.failed_to_load_data),
-                onTryAgain = onLoadData
+                onTryAgain = onTryAgain
             )
         } else if (
             pagingItems.loadState.refresh is LoadState.NotLoading &&

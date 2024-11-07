@@ -10,9 +10,8 @@ class DiscoverRemoteDataSource(
 ) {
     suspend fun fetchMovieByKeyword(
         keyword: String,
-        page: Int = 1,
-        genreId: String? = null
+        page: Int = 1
     ) = getResult {
-        service.fetchMovieByKeyword(keyword, page, genreId)
+        service.fetchMovieByKeyword(keyword, page)
     }
 }

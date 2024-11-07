@@ -25,10 +25,10 @@ data class MovieResponse(
 	val genreIds: List<Int?>,
 
 	@SerialName("poster_path")
-	val posterPath: String,
+	val posterPath: String? = null,
 
 	@SerialName("backdrop_path")
-	val backdropPath: String,
+	val backdropPath: String? = null,
 
 	@SerialName("release_date")
 	val releaseDate: String,

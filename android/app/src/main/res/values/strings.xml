@@ -15,4 +15,5 @@
     <string name="trailer_unavailable">Trailer unavailable</string>
     <string name="action">Action</string>
     <string name="comedy">Commedy</string>
+    <string name="search_category">Search (%s)</string>
 </resources>

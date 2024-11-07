@@ -12,19 +12,17 @@ class DiscoverService (
 ) : KtorService(){
     val path = "movie"
 
-    suspend fun fetchMovieByKeyword(keyword: String, page: Int = 1, genreId: String? = null): MoviesResponse {
+    suspend fun fetchMovieByKeyword(keyword: String, page: Int = 1): MoviesResponse {
         val response = client.get {
             val param = mutableListOf(
-                Pair("with_keywords", keyword),
                 Pair("page", page.toString())
             )
-            if (genreId != null){
-                param.add(Pair("with_genres", genreId))
+            var fullpath = "discover/$path"
+            if (keyword.isNotBlank()){
+                fullpath = "search/$path"
+                param.add(Pair("query", keyword))
             }
-            endpoint(
-                "discover/$path",
-                param
-            )
+            endpoint(fullpath, param)
         }
 
         checkOrThrowError(response)
