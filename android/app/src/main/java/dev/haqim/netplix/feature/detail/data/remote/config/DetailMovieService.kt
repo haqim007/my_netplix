@@ -1,7 +1,7 @@
-package dev.haqim.netplix.feature.detail.data.remote
+package dev.haqim.netplix.feature.detail.data.remote.config
 
 import dev.haqim.netplix.core.data.remote.KtorService
-import dev.haqim.netplix.core.data.remote.response.MoviesResponse
+import dev.haqim.netplix.feature.detail.data.remote.response.TrailerResponse
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 

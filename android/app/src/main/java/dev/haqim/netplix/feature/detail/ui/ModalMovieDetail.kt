@@ -23,7 +23,7 @@ fun ModalMovieDetail(
             .padding(top = 20.dp)
             .padding(horizontal = 8.dp),
         sheetState = sheetState,
-        onDismissRequest = {},
+        onDismissRequest = onClose,
         shape = RoundedCornerShape(
             topStart = 10.dp,
             topEnd = 10.dp

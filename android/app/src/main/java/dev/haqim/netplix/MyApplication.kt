@@ -3,6 +3,7 @@ package dev.haqim.netplix
 import android.app.Application
 import dev.haqim.netplix.core.di.dataModule
 import dev.haqim.netplix.core.di.dispatcherModule
+import dev.haqim.netplix.di.allModules
 import dev.haqim.netplix.feature.detail.di.detailMovieModule
 import dev.haqim.netplix.feature.discover.di.discoverModule
 import dev.haqim.netplix.feature.home.di.homeModule
@@ -25,8 +26,7 @@ class MainApplication : Application() {
             properties(mapOf("API_KEY" to BuildConfig.API_KEY))
             // Load modules
             modules(
-                dispatcherModule, dataModule, homeModule, discoverModule,
-                detailMovieModule
+                allModules
             )
         }
 

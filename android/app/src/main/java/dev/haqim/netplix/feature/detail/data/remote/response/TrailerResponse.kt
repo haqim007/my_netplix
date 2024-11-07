@@ -1,4 +1,4 @@
-package dev.haqim.netplix.feature.detail.data.remote
+package dev.haqim.netplix.feature.detail.data.remote.response
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName

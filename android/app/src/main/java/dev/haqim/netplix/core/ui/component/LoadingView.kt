@@ -31,6 +31,7 @@ import dev.haqim.netplix.R
 @Preview
 @Composable
 fun LoadingView(
+    modifier: Modifier = Modifier.fillMaxSize(),
     loader: @Composable () -> Unit = {
         LottieLoader(
             jsonRaw = R.raw.lottie_movie_loading,

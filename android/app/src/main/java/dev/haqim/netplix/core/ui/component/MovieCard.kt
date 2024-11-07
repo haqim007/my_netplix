@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
+import androidx.compose.foundation.layout.requiredWidthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -81,6 +82,7 @@ fun MovieCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .requiredHeightIn(min = 200.dp)
+                    .requiredWidthIn(min = 100.dp)
             )
             if (!isPerCategory) {
                 Text(
